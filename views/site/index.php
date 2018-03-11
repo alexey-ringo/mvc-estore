@@ -33,7 +33,7 @@
                             <div class="contactinfo">
                                 <ul class="nav nav-pills">
                                     <li><a href="#"><i class="fa fa-phone"></i> +7(921)9376665</a></li>
-                                    <li><a href="#"><i class="fa fa-envelope"></i>alexey.ringo@gmail.com</a></li>
+                                    <li><a href="#"><i class="fa fa-envelope"></i> alexey.ringo@gmail.com</a></li>
                                 </ul>
                             </div>
                         </div>
