@@ -6,3 +6,11 @@
  * and open the template in the editor.
  */
 
+class SiteController {
+    
+    public function actionIndex() {
+        require_once(ROOT . '/views/site/index.php');
+        return true;
+    }
+    
+}

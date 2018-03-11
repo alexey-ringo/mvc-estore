@@ -6,3 +6,6 @@
  * and open the template in the editor.
  */
 
+return array(
+    '' => 'site/index', //actionIndex и SiteController
+    );
