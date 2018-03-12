@@ -18,7 +18,7 @@ class SiteController {
         
         /*Receive list of latest products and send it to view */
         $latestProducts = array();
-        $latestProducts = Product::getLatestProducts(3);
+        $latestProducts = Product::getLatestProducts(6);
         
         require_once(ROOT . '/views/site/index.php');
         return true;
