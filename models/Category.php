@@ -1,6 +1,7 @@
 <?php
 /*
 class Category returnes array of categories from DB
+This model works with tablename - category
 */
 
 class Category {
