@@ -225,4 +225,5 @@
             </div>
         </section>
 
+
 <?php include ROOT . '/views/layouts/footer.php'; ?>
