@@ -8,5 +8,9 @@
 
 return array(
     'product/([0-9]+)' => 'product/view/$1', //actionView in ProductController
-    '' => 'site/index', //actionIndex и SiteController
+    
+    'catalog' => 'catalog/index', //actionIndex in CatalogController
+    'catalog/([0-9]+)' => 'catalog/category/$1', //actionCategory in CatalogController
+    
+    '' => 'site/index', //actionIndex in SiteController
     );
