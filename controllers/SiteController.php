@@ -5,8 +5,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-include_once ROOT . '/models/Category.php';
-include_once ROOT . '/models/Product.php';
+//include_once ROOT . '/models/Category.php';
+//include_once ROOT . '/models/Product.php';
 
 class SiteController {
     
