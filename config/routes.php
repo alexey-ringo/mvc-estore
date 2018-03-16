@@ -12,5 +12,7 @@ return array(
     'catalog' => 'catalog/index', //actionIndex in CatalogController
     'category/([0-9]+)' => 'catalog/category/$1', //actionCategory in CatalogController
     
+    'user/register' => 'user/register', //UserController in actionRegister
+    
     '' => 'site/index', //actionIndex in SiteController
     );
