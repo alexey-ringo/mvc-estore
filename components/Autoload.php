@@ -9,7 +9,7 @@ function __autoload($class_name) {
         '/components/'
         );
     
-    //Проходим циклом по каждой из папок и ищем нужный файл
+    //Проходим циклом по каждой из папок и ищем нужный файл с нужным классом
     
     foreach ($array_paths as $path) {
         $path = ROOT . $path . $class_name . '.php';
