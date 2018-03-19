@@ -59,5 +59,56 @@ class User {
         return false;
     }
     
+    /**
+     * Проверка существования пользователя с заданными $email и $password
+     * param string $email
+     * param string $password
+     * return mixed : integer user id or false
+    */
+    public static function checkUserData($email, $password) {
+        
+        $db = Db::getConnection();
+        
+        $sql = 'SELECT * FROM user WHERE email = :email AND password = :password';
+        $result = $db->prepare($sql);
+        $result->bindParam(':email', $email, PDO::PARAM_INT);
+        $result->bindParam(':password', $password, PDO::PARAM_INT);
+        $result->execute();
+        
+        $user = $result->fetch();
+        if ($user) {
+            return $user['id'];
+        }
+        
+        return false;
+    }
     
+    
+    /**
+     * fdsg
+     * sdfg
+     * sdfg
+    */
+    public static function auth($userId) {
+        //Открываем сессию и записываем id-пользователя в массив
+        session_start();
+        $_SESSION['user'] = $userId;
+    } 
+    
+    public static function checkLogged() {
+        session_start();
+        if(isset($_SESSION['user'])) {
+            return $_SESSION['user'];
+        }
+        
+        header("Location: /user/login");
+    }
+    
+    public static function isGuest() {
+        session_start();
+        if (isset($_SESSION['user'])) {
+            return false;
+        }
+        return true;
+    }
 }
