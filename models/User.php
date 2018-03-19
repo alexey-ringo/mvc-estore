@@ -91,24 +91,48 @@ class User {
     */
     public static function auth($userId) {
         //Открываем сессию и записываем id-пользователя в массив
-        session_start();
+        //session_start();
         $_SESSION['user'] = $userId;
     } 
     
     public static function checkLogged() {
-        session_start();
+        //session_start();
         if(isset($_SESSION['user'])) {
             return $_SESSION['user'];
         }
-        
+        //В случае отсутствия сессии перенаправляем на страничку входа
         header("Location: /user/login");
     }
     
     public static function isGuest() {
-        session_start();
+        //session_start();
         if (isset($_SESSION['user'])) {
+            //Если сессии нет - значит это гость
             return false;
         }
+        //В обратном случае видим наличие сессии и возвращаем признак авторизованного пользователя
         return true;
+    }
+    
+    /**
+     * returns user by id
+     * @param integer $id
+    */ 
+    public static function getUserById($id) {
+        if ($id) {
+            $db = Db::getConnection();
+            //with placeholder
+            $sql = 'SELECT * FROM user WHERE id = :id';
+            
+            $result = $db->prepare($sql);
+            $result->bindParam(':id', $id, PDO::PARAM_INT);
+            
+            //Указываем, что хотим получить данные ввиде массива
+            $result->setFetchMode(PDO::FETCH_ASSOC);
+            $result->execute();
+            
+            return $result->fetch();
+            
+        }
     }
 }
