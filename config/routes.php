@@ -16,6 +16,7 @@ return array(
     'user/login' => 'user/login', //UserController in actionLogin
     'user/logout' => 'user/logout', //UserController in actionLogout
     
+    'cabinet/edit' => 'cabinet/edit', //
     'cabinet' => 'cabinet/index', //
     
     '' => 'site/index', //actionIndex in SiteController

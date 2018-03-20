@@ -99,7 +99,7 @@ class UserController {
         return true;
         
     }
-    
+    //разлогиниваемся, удаляем идентификатор сессии из массива
     public function actionLogout() {
         session_start();
         unset($_SESSION['user']);
