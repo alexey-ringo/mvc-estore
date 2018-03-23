@@ -10,7 +10,10 @@ return array(
     'product/([0-9]+)' => 'product/view/$1', //actionView in ProductController
     
     'catalog' => 'catalog/index', //actionIndex in CatalogController
+    
     'category/([0-9]+)' => 'catalog/category/$1', //actionCategory in CatalogController
+    
+    'cart/add/([0-9]+)' => 'cart/add/$1', //actionAdd in CartController
     
     'user/register' => 'user/register', //UserController in actionRegister
     'user/login' => 'user/login', //UserController in actionLogin
