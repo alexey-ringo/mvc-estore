@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-sm-3">
                         <div class="left-sidebar">
-                            <h2>Каталог</h2>
+                            <h2>Категория</h2>
                             <div class="panel-group category-products">
                                 
                                 <?php foreach($categories as $categoryItem): ?>
@@ -50,7 +50,7 @@
                                                     <?=$product['name']; ?>
                                                 </a>
                                             </p>
-                                            <a href="/cart/add/<?=$product['id']; ?>" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>В корзину</a>
+                                            <a href="/cart/add/<?=$product['id']; ?>" class="btn btn-default add-to-cart-sync"><i class="fa fa-shopping-cart"></i>В корзину</a>
                                         </div>
                                         <?php if ($product['is_new']): ?>
                                             <img src="/template/images/home/new.png" class="new" alt="" />

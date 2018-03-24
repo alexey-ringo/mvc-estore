@@ -1,7 +1,11 @@
 <?php
 
 class Cart {
-    //Добавить товар в корзину
+    /**
+     * Добавление товара в корзину (сессию)
+     * @param int $id <p>id товара</p>
+     * @return integer <p>Количество товаров в корзине</p>
+     */
     public static function addProduct($id) {
         // Приводим $id к типу integer
         $id = intval($id);
@@ -30,19 +34,66 @@ class Cart {
         echo '</pre>';
         die();
         */
+        
+        //Сразу, по результату выполнения метода addProduct() - подсчитывать кол0во товаров в корзине
+        //т.е. - не дожидаясь, когда страница view обновиться и cuuntItems() будет запрошен из view
+        return self::countItems();
     }
     
-    //Счетчик общего кол-ва товаров в корзине
+    /**
+     * Подсчет количество товаров в корзине (в сессии)
+     * @return int <p>Количество товаров в корзине</p>
+     */
     public static function countItems() {
+        
+        // Проверка наличия товаров в корзине
         if(isset($_SESSION['products'])) {
+            // Если массив с товарами есть
+            // Подсчитаем и вернем их количество
             $count = 0;
             foreach($_SESSION['products'] as $id => $quantity) {
                 $count = $count + $quantity;
-                return $count;
             }
+            return $count;
         }
         else {
+            // Если товаров нет, вернем 0
             return 0;
         }
+    }
+    
+    /**
+     * Возвращает массив с идентификаторами и количеством товаров в корзине<br/>
+     * Если товаров нет, возвращает false;
+     * @return mixed: boolean or array
+     */
+    public static function getProducts()
+    {
+        if (isset($_SESSION['products'])) {
+            return $_SESSION['products'];
+        }
+        return false;
+    }
+    
+    /**
+     * Получаем общую стоимость переданных товаров
+     * @param array $products <p>Массив с информацией о товарах</p>
+     * @return integer <p>Общая стоимость</p>
+     */
+    public static function getTotalPrice($products)
+    {
+        // Получаем массив с идентификаторами и количеством товаров в корзине
+        $productsInCart = self::getProducts();
+        // Подсчитываем общую стоимость
+        $total = 0;
+        if ($productsInCart) {
+            // Если в корзине не пусто
+            // Проходим по переданному в метод массиву товаров
+            foreach ($products as $item) {
+                // Находим общую стоимость: цена товара * количество товара
+                $total += $item['price'] * $productsInCart[$item['id']];
+            }
+        }
+        return $total;
     }
 }

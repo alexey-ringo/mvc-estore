@@ -126,6 +126,10 @@ class User {
         header("Location: /user/login");
     }
     
+    /**
+     * Проверяет является ли пользователь гостем
+     * @return boolean <p>Результат выполнения метода</p>
+     */
     public static function isGuest() {
         //session_start();
         if (isset($_SESSION['user'])) {
