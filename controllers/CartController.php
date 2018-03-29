@@ -29,6 +29,14 @@ class CartController {
         return true;
     }
     
+    public function actionDelete($id) {
+        $delProduct = Cart::deleteProduct($id);
+        if($delProduct){
+        header("Location: /cart/");
+        }
+    }
+    
+    
     /**
      * Action для страницы "Корзина"
      */
@@ -53,24 +61,90 @@ class CartController {
     }
     
     /**
-     * Получаем общую стоимость переданных товаров
-     * @param array $products <p>Массив с информацией о товарах</p>
-     * @return integer <p>Общая стоимость</p>
+     * Action для страницы "Оформление покупки"
      */
-    public static function getTotalPrice($products)
-    {
-        // Получаем массив с идентификаторами и количеством товаров в корзине
-        $productsInCart = self::getProducts();
-        // Подсчитываем общую стоимость
-        $total = 0;
-        if ($productsInCart) {
-            // Если в корзине не пусто
-            // Проходим по переданному в метод массиву товаров
-            foreach ($products as $item) {
-                // Находим общую стоимость: цена товара * количество товара
-                $total += $item['price'] * $productsInCart[$item['id']];
-            }
+    public function actionCheckout() {
+        //Собираем инф о заказе
+        //Получаем список товаров из корзины
+        $productsInCart = Cart::getProducts();
+            
+        //В зависимости от наличия или отсутствия товаров в корзине:
+        if($productsInCart == false) {
+            //Если в корзине не было товаров - 
+            //отправляем пользователя на главную стр. искать товары
+            header("Location: /");
         }
-        return $total;
+        
+        // Получаем список категорий для левого меню
+        $categories = Category::getCategoriesList();
+        
+        
+        // Находим id всех товаров в корзине
+        $productsIds = array_keys($productsInCart);
+        $products = Product::getProdustsByIds($productsIds);
+        //Суммарная стоимость заказа
+        $totalPrice = Cart::getTotalPrice($products);
+        // Общее количество товаров, выбранных в корзине
+        $totalQuantity = Cart::countItems();
+        
+        //Первоначально инициализируем поля для формы
+        $userName = false;
+        $userPhone = false;
+        $userComment = false;
+        
+        // Первоначально инициализируем статус успешности оформления заказа
+        $result = false;
+        
+        // Проверяем является ли пользователь гостем
+        if (!User::isGuest()) {
+            // Если пользователь не гость
+            // Получаем информацию о пользователе из БД
+            $userId = User::checkLogged();
+            $user = User::getUserById($userId);
+            $userName = $user['name'];
+        } else {
+            // Если гость, поля формы останутся пустыми
+            $userId = false;
+        }
+        
+        //Проварка на отправку заказа
+        if(isset($_POST['submit'])) {
+            //Форма отправлена - да
+            //Считываем введенные данные покупателя из полей формы
+            $userName = $_POST['userName'];
+            $userPhone = $_POST['userPhone'];
+            $userComment = $_POST['userComment'];
+            
+            $errors = false;
+            //Валидация считанных пользовательских данных
+            if(!User::checkName($userName)) {
+                $errors[] = 'Неправильное имя';
+            }
+            
+            if(!User::checkPhone($userPhone)) {
+                $errors[] = 'Неправильный телефон';
+            }
+            
+            //Форма заполнена корректно?
+            if($errors == false) {
+                //Форма заполнена корректно - сохраняем заказ в БД
+                //Сохраняем заказ в БД
+                $result = Order::save($userName, $userPhone, $userComment, $userId, $productsInCart);
+                
+                if($result) {
+                    //Оповещаем администратора о новом заказе письмом
+                    
+                    //Очищаем корзину
+                    Cart::clear();
+                }
+                
+            }
+            
+        }
+        
+        // Подключаем вид
+        require_once(ROOT . '/views/cart/checkout.php');
+        return true;
     }
+     
 }
