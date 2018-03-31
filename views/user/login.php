@@ -14,6 +14,7 @@
                 
                 <?php endif; ?>
                 <div class="signup-form">
+                    <a href="/user/register"><h2>Регистрация нового пользователя</h2></a>
                     <h2>Вход в личный кабинет</h2>
                     <form action="#" method="post">
                         <input type="email" name="email" placeholder="E-mail" value="<?=$email; ?>"/>
